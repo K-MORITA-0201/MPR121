@@ -67,16 +67,16 @@
 class MPR121Manager {
   // 外部からのアクセスを許可
 public:
-  MPR121Manager(uint8_t setAddress = 0x5A, uint16_t usedPortMask = 0xFFFF);  // コンストラクタ
-  void update();                                                             // 状態を更新
-  void printStatus(uint32_t interval = 250);                                 // 状態の表示
-  bool isTouched(uint8_t port);                                              // 特定ピンがタッチ中か判定
-  void setTouchMargin(uint8_t port, uint8_t margin);                         // タッチ判定用マージンを設定
-  void setReleaseMargin(uint8_t port, uint8_t margin);                       // リリース判定用マージンを設定
-  void setSensorMinValue(uint8_t port, uint16_t value);                      // 指定ポートの下限値を設定
-  void setSensorMaxValue(uint8_t port, uint16_t value);                      // 指定ポートの上限値を設定
-  void setTouchJugeCount(uint8_t port, uint8_t count);                       // タッチ判定回数を設定
-  void setReleaseJugeCount(uint8_t port, uint8_t count);                     // リリース判定回数を設定
+  MPR121Manager(uint8_t setAddress = 0x5A, uint16_t usedPortMask = 0xFFFF);              // コンストラクタ
+  void update();                                                                         // 状態を更新
+  void printStatus(uint32_t interval, const String* portLabel = nullptr, size_t N = 0);  // 状態の表示
+  bool isTouched(uint8_t port);                                                          // 特定ピンがタッチ中か判定
+  void setTouchMargin(uint8_t port, uint8_t margin);                                     // タッチ判定用マージンを設定
+  void setReleaseMargin(uint8_t port, uint8_t margin);                                   // リリース判定用マージンを設定
+  void setSensorMinValue(uint8_t port, uint16_t value);                                  // 指定ポートの下限値を設定
+  void setSensorMaxValue(uint8_t port, uint16_t value);                                  // 指定ポートの上限値を設定
+  void setTouchJugeCount(uint8_t port, uint8_t count);                                   // タッチ判定回数を設定
+  void setReleaseJugeCount(uint8_t port, uint8_t count);                                 // リリース判定回数を設定
 
   // 自クラス内部のみアクセス許可
 private:

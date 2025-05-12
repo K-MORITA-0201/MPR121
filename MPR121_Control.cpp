@@ -114,11 +114,10 @@ bool MPR121Manager::isTouched(uint8_t port) {
  * @param interval 表示間隔
  */
 //*****************************************************************************************************************************
-void MPR121Manager::printStatus(uint32_t interval) {
+void MPR121Manager::printStatus(uint32_t interval, const String* portLabel, size_t N) {
   static uint32_t lastPrintTime = millis();
   uint32_t currentTime = millis();
 
-  // 指定された表示間隔未満なら何もしない
   if (currentTime - lastPrintTime < interval) return;
   lastPrintTime = currentTime;
 
@@ -126,16 +125,26 @@ void MPR121Manager::printStatus(uint32_t interval) {
   Serial.print(address, HEX);
   Serial.print(" ->");
 
+  uint8_t labelIndex = 0;  // ラベル表示用のインデックス（使う場合のみ）
+
   for (uint8_t i = 0; i < maxPort; ++i) {
     if ((activePort >> i) & 1) {
-
-      // タッチ状態の取得
       bool touched = (currentTouched >> i) & 1;
 
-      // 表示
       Serial.print("  |  ");
-      Serial.print("Port ");
-      Serial.print(i);
+
+      // ラベルがある場合 → labelIndex使用
+      // ない場合 → i（実ポート番号）使用
+      if (N > 0) {
+        if (labelIndex < N) {
+          Serial.print(portLabel[labelIndex]);
+        }
+        labelIndex++;  // アクティブな順の表示番号を進める
+      } else {
+        Serial.print("Port ");
+        Serial.print(i);  // 実ポート番号で表示
+      }
+
       Serial.print(": ");
       Serial.print(touched ? "Touch" : "Release");
       Serial.print("  Val: ");
@@ -144,8 +153,6 @@ void MPR121Manager::printStatus(uint32_t interval) {
       Serial.print(threshold[i], 2);
       Serial.print("  Raw: ");
       Serial.print(cap.filteredData(i));
-      // Serial.print("  Cnt: ");
-      // Serial.print(counter[i]);
     }
   }
   Serial.println();
