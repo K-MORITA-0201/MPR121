@@ -114,7 +114,7 @@ bool MPR121Manager::isTouched(uint8_t port) {
  * @param interval 表示間隔
  */
 //*****************************************************************************************************************************
-void MPR121Manager::printStatus(uint32_t interval, const String* portLabel, size_t N) {
+void MPR121Manager::printStatus(uint32_t interval, const vector<String>& portLabel) {
   static uint32_t lastPrintTime = millis();
   uint32_t currentTime = millis();
 
@@ -135,10 +135,8 @@ void MPR121Manager::printStatus(uint32_t interval, const String* portLabel, size
 
       // ラベルがある場合 → labelIndex使用
       // ない場合 → i（実ポート番号）使用
-      if (N > 0) {
-        if (labelIndex < N) {
-          Serial.print(portLabel[labelIndex]);
-        }
+      if (labelIndex < portLabel.size()) {
+        Serial.print(portLabel[labelIndex]);
         labelIndex++;  // アクティブな順の表示番号を進める
       } else {
         Serial.print("Port ");

@@ -3,8 +3,8 @@
 
 #define MPR121_DEBUG_PRINT 1  // センサー状態表示の有無
 
-uint16_t usedPortMask = 0b000000000110011;                // 使用したいポート番号をビットで選択(左から順番に指定)
-String labels[] = { "Left", "Center", "Right", "Back" };  // ポートラベル配列
+uint16_t usedPortMask = 0b000000000110011;              // 使用したいポート番号をビットで選択(左から順番に指定)
+vector<String> labels = { "Left", "Center", "Right" };  // ポートラベル配列
 
 // インスタンスの作成
 MPR121Manager mpr121(0x5A, usedPortMask);
@@ -30,10 +30,8 @@ void loop() {
   mpr121.update();  // センサー状態を更新
 
   if (MPR121_DEBUG_PRINT) {
-    // mpr121.printStatus(50);          // 状態を表示(ラベルなし)
-
-    size_t labelCount = sizeof(labels) / sizeof(labels[0]);  // 要素数を送る
-    mpr121.printStatus(50, labels, labelCount);              // 状態を表示(ラベルあり)
+    mpr121.printStatus(50);  // 状態を表示(ラベルなし)
+    // mpr121.printStatus(50, labels);  // 状態を表示(ラベルあり)
   } else {
     // 状態の確認
     for (uint8_t i = 0; i < 12; ++i) {
